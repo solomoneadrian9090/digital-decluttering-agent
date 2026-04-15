@@ -1,0 +1,63 @@
+#!/bin/bash
+
+# File Inventory Scanner - User Files Only
+# This script scans only user-created content directories
+
+echo "=========================================="
+echo "File Inventory Scanner - User Files Only"
+echo "=========================================="
+echo ""
+
+# Get the directory where this script is located
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+cd "$SCRIPT_DIR"
+
+# Check if Python 3 is installed
+if ! command -v python3 &> /dev/null; then
+    echo "❌ Error: Python 3 is not installed."
+    echo "Please install Python 3 to continue."
+    exit 1
+fi
+
+echo "✓ Python 3 found: $(python3 --version)"
+echo ""
+
+# Check if required packages are installed
+echo "Checking dependencies..."
+if ! python3 -c "import pandas" 2>/dev/null; then
+    echo "📦 Installing required packages..."
+    pip3 install -r requirements.txt
+    if [ $? -ne 0 ]; then
+        echo "❌ Error: Failed to install dependencies."
+        echo "Please run: pip3 install -r requirements.txt"
+        exit 1
+    fi
+else
+    echo "✓ Dependencies already installed"
+fi
+
+echo ""
+echo "This scanner will only check user directories:"
+echo "  - Desktop"
+echo "  - Documents"
+echo "  - Downloads"
+echo "  - Pictures"
+echo "  - Movies"
+echo "  - Music"
+echo "  - Projects/Development/Code/Work"
+echo "  - Bob"
+echo ""
+echo "System files and directories will be skipped."
+echo ""
+echo "Starting user file scanner..."
+echo ""
+
+# Run the user-only scanner
+python3 file_scanner_user_only.py
+
+echo ""
+echo "=========================================="
+echo "Scanner completed!"
+echo "=========================================="
+
+# Made with Bob
