@@ -21,21 +21,10 @@ An intelligent file analysis and cleanup tool with an interactive web dashboard 
 - ✅ **NEW: Bulk operations (select all, deselect all)**
 - ✅ **NEW: Safe deletion (Move to Trash or Permanent Delete)**
 
-## 📸 Screenshots
+## 📸 Screenshot
 
-### Dashboard Overview
-![Dashboard Main View](screenshots/dashboard-main.png)
-*The main dashboard showing file analysis with IBM Design Language*
-
-### File Selection & Deletion
-![File Selection](screenshots/file-selection.png)
-*Interactive file selection with bulk operations*
-
-### Filtering & Search
-![Advanced Filters](screenshots/filters.png)
-*Advanced filtering by size, type, and recommendation*
-
-> **Note:** To add your own screenshots, see the [Screenshots Guide](SCREENSHOTS_GUIDE.md) for detailed instructions.
+![Dashboard Overview](screenshots/dashboard-overview.png)
+*Interactive dashboard with IBM Design Language showing file analysis and cleanup tools*
 
 ## � Quick Start
 
