@@ -49,12 +49,23 @@ else
     echo "Scan completed with exit code: $EXIT_CODE" >> "$LOG_FILE"
 fi
 
-# Send macOS notification
-osascript -e "display notification \"$MESSAGE\" with title \"$TITLE\" subtitle \"$SUBTITLE\" sound name \"Glass\"" 2>/dev/null
+# Send macOS notification with custom icon
+# If the app bundle exists, use it to show custom icon
+APP_BUNDLE="$SCRIPT_DIR/Digital Decluttering Dashboard.app"
 
-# Also try terminal-notifier if available (better notifications)
-if command -v terminal-notifier &> /dev/null; then
-    terminal-notifier -title "$TITLE" -subtitle "$SUBTITLE" -message "$MESSAGE" -sound Glass -group "digital-declutter" 2>/dev/null
+if [ -d "$APP_BUNDLE" ]; then
+    # Use terminal-notifier for better notifications with custom icon
+    if command -v terminal-notifier &> /dev/null; then
+        terminal-notifier -title "$TITLE" -subtitle "$SUBTITLE" -message "$MESSAGE" \
+            -sound Glass -group "digital-declutter" \
+            -appIcon "$APP_BUNDLE/Contents/Resources/AppIcon.icns" 2>/dev/null
+    else
+        # Fallback to osascript (no custom icon support)
+        osascript -e "display notification \"$MESSAGE\" with title \"$TITLE\" subtitle \"$SUBTITLE\" sound name \"Glass\"" 2>/dev/null
+    fi
+else
+    # App bundle doesn't exist, use standard notification
+    osascript -e "display notification \"$MESSAGE\" with title \"$TITLE\" subtitle \"$SUBTITLE\" sound name \"Glass\"" 2>/dev/null
 fi
 
 echo "Notification sent" >> "$LOG_FILE"

@@ -62,3 +62,9 @@ Temporary Items
 
 # User-specific files
 com.digitalclutter.scanner.plist
+icon.png
+temp.iconset/
+temp.icns
+
+# Generated app bundle
+*.app/

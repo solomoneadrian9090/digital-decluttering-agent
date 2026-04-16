@@ -65,6 +65,28 @@ The dashboard will open at `http://localhost:8080`
 
 > **⚠️ Important:** Always use one of these methods to launch the dashboard. Do NOT open `index.html` directly in your browser, as it won't load the data properly.
 
+### 🎨 Create a Custom App with Your Icon
+
+Want a proper macOS app with a custom icon?
+
+**Quick setup:**
+```bash
+# 1. Add your icon.png to the project directory (optional)
+# 2. Create the app
+./create_app_launcher.sh
+```
+
+This creates **"Digital Decluttering Dashboard.app"** that you can:
+- ✅ Double-click to launch (with your custom icon!)
+- ✅ Drag to your Dock for quick access
+- ✅ Move to Applications folder
+- ✅ Place on Desktop
+
+**For detailed icon customization**, see [CUSTOM_ICON_GUIDE.md](CUSTOM_ICON_GUIDE.md):
+- Creating icons from emojis (easiest method)
+- Free icon resources
+- Design tips and recommendations
+
 ## 📊 Dashboard Features
 
 ### File Selection
