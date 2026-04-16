@@ -21,7 +21,23 @@ An intelligent file analysis and cleanup tool with an interactive web dashboard 
 - ✅ **NEW: Bulk operations (select all, deselect all)**
 - ✅ **NEW: Safe deletion (Move to Trash or Permanent Delete)**
 
-## 🚀 Quick Start
+## 📸 Screenshots
+
+### Dashboard Overview
+![Dashboard Main View](screenshots/dashboard-main.png)
+*The main dashboard showing file analysis with IBM Design Language*
+
+### File Selection & Deletion
+![File Selection](screenshots/file-selection.png)
+*Interactive file selection with bulk operations*
+
+### Filtering & Search
+![Advanced Filters](screenshots/filters.png)
+*Advanced filtering by size, type, and recommendation*
+
+> **Note:** To add your own screenshots, see the [Screenshots Guide](SCREENSHOTS_GUIDE.md) for detailed instructions.
+
+## � Quick Start
 
 ### 1. Run a Scan
 ```bash
@@ -212,6 +228,8 @@ Digital Decluttering agent/
 
 - **[DASHBOARD_GUIDE.md](DASHBOARD_GUIDE.md)**: Complete dashboard usage guide
 - **[INTERACTIVE_DELETION_GUIDE.md](INTERACTIVE_DELETION_GUIDE.md)**: File deletion feature guide
+- **[SCREENSHOTS_GUIDE.md](SCREENSHOTS_GUIDE.md)**: How to add screenshots to README
+- **[CUSTOM_ICON_GUIDE.md](CUSTOM_ICON_GUIDE.md)**: Custom icon setup guide
 
 ## 🔄 Automated Scanning
 
