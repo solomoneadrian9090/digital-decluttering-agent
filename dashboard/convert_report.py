@@ -16,6 +16,18 @@ def find_latest_report(reports_dir):
         return None
     return max(report_files, key=lambda p: p.stat().st_mtime)
 
+def needs_conversion(excel_path, json_path):
+    """Check if JSON needs to be regenerated."""
+    # If JSON doesn't exist, needs conversion
+    if not json_path.exists():
+        return True
+    
+    # If Excel is newer than JSON, needs conversion
+    excel_mtime = excel_path.stat().st_mtime
+    json_mtime = json_path.stat().st_mtime
+    
+    return excel_mtime > json_mtime
+
 def convert_report_to_json(excel_path, output_path):
     """Convert Excel report to JSON format for dashboard."""
     try:
@@ -80,15 +92,20 @@ def main():
         print("Run a scan first to generate a report.")
         return
     
-    print(f"Found latest report: {latest_report.name}")
-    
-    # Convert to JSON
     output_path = data_dir / 'latest_report.json'
-    success = convert_report_to_json(latest_report, output_path)
     
-    if success:
-        print(f"\n✓ Dashboard data ready!")
-        print(f"Open the dashboard: file://{script_dir / 'index.html'}")
+    # Check if conversion is needed
+    if needs_conversion(latest_report, output_path):
+        print(f"Found latest report: {latest_report.name}")
+        print("Converting to JSON...")
+        success = convert_report_to_json(latest_report, output_path)
+        
+        if success:
+            print(f"\n✓ Dashboard data ready!")
+            print(f"Open the dashboard: file://{script_dir / 'index.html'}")
+    else:
+        print(f"✓ Using cached data from: {latest_report.name}")
+        print(f"✓ Dashboard data ready!")
 
 if __name__ == '__main__':
     main()
