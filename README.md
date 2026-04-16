@@ -6,7 +6,7 @@ An intelligent file analysis and cleanup tool with an interactive web dashboard 
 
 ### File Scanning
 - ✅ Scans user directories (Desktop, Documents, Downloads, Pictures, Movies, Music)
-- ✅ Identifies files not accessed in over 1 year
+- ✅ Identifies files not accessed in over 90 days
 - ✅ Excludes system files and development artifacts
 - ✅ Generates detailed Excel reports with file metadata
 - ✅ Monthly automated scanning with notifications
