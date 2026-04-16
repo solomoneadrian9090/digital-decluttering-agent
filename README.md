@@ -17,9 +17,9 @@ An intelligent file analysis and cleanup tool with an interactive web dashboard 
 - ✅ Intelligent file categorization (Documents, Media, Archives, Downloads, Other)
 - ✅ Smart recommendations (DELETE, ARCHIVE, REVIEW, KEEP)
 - ✅ Advanced filtering (search, size, file type, recommendation)
-- ✅ **NEW: Interactive file selection and deletion**
-- ✅ **NEW: Bulk operations (select all, deselect all)**
-- ✅ **NEW: Safe deletion (Move to Trash or Permanent Delete)**
+- ✅ Interactive file selection and deletion**
+- ✅ Bulk operations (select all, deselect all)**
+- ✅ Safe deletion (Move to Trash or Permanent Delete)**
 
 ## 📸 Screenshot
 
