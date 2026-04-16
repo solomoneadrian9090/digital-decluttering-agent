@@ -30,11 +30,40 @@ cd ~/Bob/"Digital Decluttering agent"
 ```
 
 ### 2. Launch Dashboard
+
+Choose your preferred method:
+
+#### Option A: Double-Click (Easiest) 🖱️
+1. Navigate to `~/Bob/Digital Decluttering agent/` in Finder
+2. Double-click `launch.command`
+3. Dashboard opens automatically!
+
+#### Option B: Desktop Shortcut 🖥️
 ```bash
+cd ~/Bob/"Digital Decluttering agent"
+./create_desktop_shortcut.sh
+```
+Then double-click "Digital Decluttering Dashboard.command" on your Desktop
+
+#### Option C: Global Command 💻
+```bash
+cd ~/Bob/"Digital Decluttering agent"
+./install_global_command.sh
+```
+Then run from anywhere:
+```bash
+declutter
+```
+
+#### Option D: Manual Command 📝
+```bash
+cd ~/Bob/"Digital Decluttering agent"
 ./start_dashboard.sh
 ```
 
 The dashboard will open at `http://localhost:8080`
+
+> **⚠️ Important:** Always use one of these methods to launch the dashboard. Do NOT open `index.html` directly in your browser, as it won't load the data properly.
 
 ## 📊 Dashboard Features
 
