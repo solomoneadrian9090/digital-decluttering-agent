@@ -317,13 +317,6 @@ body {
 
 
 /* Table */
-.files-table-container {
-    max-height: 600px;
-    overflow-y: auto;
-    overflow-x: auto;
-    position: relative;
-}
-
 .table-container {
     overflow-x: auto;
 }
