@@ -215,9 +215,11 @@ Digital Decluttering agent/
 
 ## 📖 Documentation
 
+- **[SECURITY.md](SECURITY.md)**: Security analysis and best practices
 - **[DASHBOARD_GUIDE.md](DASHBOARD_GUIDE.md)**: Complete dashboard usage guide
 - **[INTERACTIVE_DELETION_GUIDE.md](INTERACTIVE_DELETION_GUIDE.md)**: File deletion feature guide
 - **[RECOMMENDATION_ALGORITHM.md](RECOMMENDATION_ALGORITHM.md)**: How smart recommendations work
+- **[PERFORMANCE_OPTIMIZATION.md](PERFORMANCE_OPTIMIZATION.md)**: Performance improvements guide
 - **[SCREENSHOTS_GUIDE.md](SCREENSHOTS_GUIDE.md)**: How to add screenshots to README
 - **[CUSTOM_ICON_GUIDE.md](CUSTOM_ICON_GUIDE.md)**: Custom icon setup guide
 
