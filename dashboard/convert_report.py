@@ -3,7 +3,6 @@
 Convert Excel report to JSON for dashboard
 """
 
-import pandas as pd
 import json
 import os
 from datetime import datetime
@@ -31,6 +30,9 @@ def needs_conversion(excel_path, json_path):
 def convert_report_to_json(excel_path, output_path):
     """Convert Excel report to JSON format for dashboard."""
     try:
+        # Import pandas only when needed (lazy import for faster startup)
+        import pandas as pd
+        
         # Read Excel file, skipping the first 3 header rows
         df = pd.read_excel(excel_path, skiprows=3)
         
