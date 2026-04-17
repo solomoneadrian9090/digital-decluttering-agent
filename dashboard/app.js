@@ -522,11 +522,23 @@ class DeclutterDashboard {
                 // More helpful error message
                 const fileName = filePath.split('/').pop();
                 if (result.error === 'File not found') {
+                    // Remove the file from the dashboard
+                    this.files = this.files.filter(f => f.file_path !== filePath);
+                    this.selectedFiles.delete(filePath);
+                    
+                    // Re-render the dashboard
+                    this.renderFiles();
+                    this.updateSummary({
+                        files: this.files,
+                        total_size_mb: this.files.reduce((sum, f) => sum + f.size_mb, 0),
+                        scan_date: new Date().toISOString()
+                    });
+                    this.generateInsights();
+                    
+                    // Show a brief notification
                     alert(
-                        `⚠️ File Not Found\n\n` +
-                        `"${fileName}" no longer exists.\n\n` +
-                        `This file may have been moved or deleted since the last scan.\n\n` +
-                        `💡 Tip: Click the Refresh button to update the report with current files.`
+                        `✓ File Removed from Dashboard\n\n` +
+                        `"${fileName}" no longer exists and has been removed from the list.`
                     );
                 } else {
                     alert(`Failed to reveal file: ${result.error}`);
