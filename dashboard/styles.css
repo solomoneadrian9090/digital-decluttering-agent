@@ -379,6 +379,22 @@ body {
     white-space: nowrap;
 }
 
+.file-name.clickable,
+.file-location.clickable {
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.file-name.clickable:hover {
+    color: var(--blue-60);
+    text-decoration: underline;
+}
+
+.file-location.clickable:hover {
+    color: var(--blue-60);
+    text-decoration: underline;
+}
+
 .file-location {
     color: var(--gray-70);
     font-size: 0.75rem;

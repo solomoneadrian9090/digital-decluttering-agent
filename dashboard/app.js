@@ -330,6 +330,7 @@ class DeclutterDashboard {
 
         // Reattach checkbox event listeners
         this.attachCheckboxListeners();
+        this.attachFileClickListeners();
         this.updateBulkActionsBar();
     }
 
@@ -345,10 +346,10 @@ class DeclutterDashboard {
                     <input type="checkbox" class="file-checkbox" data-file-path="${file.file_path}" ${isSelected ? 'checked' : ''}>
                 </td>
                 <td>
-                    <div class="file-name" title="${fileName}">${fileName}</div>
+                    <div class="file-name clickable" title="Click to reveal in Finder: ${fileName}" data-file-path="${file.file_path}">${fileName}</div>
                 </td>
                 <td>
-                    <div class="file-location" title="${location}">${location}</div>
+                    <div class="file-location clickable" title="Click to reveal in Finder: ${location}" data-file-path="${file.file_path}">${location}</div>
                 </td>
                 <td class="file-size">${this.formatSize(file.size_mb)}</td>
                 <td class="file-date">${this.formatDate(file.last_access)}</td>
@@ -490,6 +491,40 @@ class DeclutterDashboard {
                 this.updateBulkActionsBar();
             });
         });
+    }
+
+    attachFileClickListeners() {
+        document.querySelectorAll('.file-name.clickable, .file-location.clickable').forEach(element => {
+            element.addEventListener('click', (e) => {
+                e.stopPropagation(); // Prevent row selection
+                const filePath = e.target.dataset.filePath;
+                this.revealInFinder(filePath);
+            });
+        });
+    }
+
+    async revealInFinder(filePath) {
+        try {
+            const response = await fetch('/api/reveal-in-finder', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ file: filePath })
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                // Optional: Show a brief success message
+                console.log('File revealed in Finder:', filePath);
+            } else {
+                alert(`Failed to reveal file: ${result.error}`);
+            }
+        } catch (error) {
+            console.error('Error revealing file:', error);
+            alert('Failed to reveal file in Finder');
+        }
     }
 
     toggleSelectAll(checked) {

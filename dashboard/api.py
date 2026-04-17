@@ -64,6 +64,8 @@ class DeclutterAPIHandler(BaseHTTPRequestHandler):
             self.handle_delete()
         elif parsed_path.path == '/api/move-to-trash':
             self.handle_move_to_trash()
+        elif parsed_path.path == '/api/reveal-in-finder':
+            self.handle_reveal_in_finder()
         else:
             self.send_error(404, "API endpoint not found")
     
@@ -265,6 +267,65 @@ class DeclutterAPIHandler(BaseHTTPRequestHandler):
                 'success': False,
                 'error': str(e)
             }
+    
+    def handle_reveal_in_finder(self):
+        """Handle reveal in Finder requests"""
+        try:
+            # Read request body
+            content_length = int(self.headers['Content-Length'])
+            body = self.rfile.read(content_length)
+            data = json.loads(body.decode('utf-8'))
+            
+            file_path = data.get('file')
+            
+            if not file_path:
+                self.send_json_response(400, {
+                    'success': False,
+                    'error': 'No file specified'
+                })
+                return
+            
+            # Expand user path
+            file_path = os.path.expanduser(file_path)
+            
+            # Check if file exists
+            if not os.path.exists(file_path):
+                self.send_json_response(404, {
+                    'success': False,
+                    'error': 'File not found'
+                })
+                return
+            
+            # Use macOS 'open' command to reveal in Finder
+            import subprocess
+            
+            result = subprocess.run(
+                ['open', '-R', file_path],
+                capture_output=True,
+                text=True
+            )
+            
+            if result.returncode == 0:
+                self.send_json_response(200, {
+                    'success': True,
+                    'message': 'File revealed in Finder'
+                })
+            else:
+                self.send_json_response(500, {
+                    'success': False,
+                    'error': f'Failed to reveal file: {result.stderr}'
+                })
+            
+        except json.JSONDecodeError:
+            self.send_json_response(400, {
+                'success': False,
+                'error': 'Invalid JSON'
+            })
+        except Exception as e:
+            self.send_json_response(500, {
+                'success': False,
+                'error': str(e)
+            })
     
     def is_system_file(self, file_path):
         """Check if file is a system file that shouldn't be deleted"""
