@@ -4,8 +4,11 @@
 class DeclutterDashboard {
     constructor() {
         this.files = [];
+        this.filteredFiles = [];
         this.currentCategory = 'all';
         this.selectedFiles = new Set();
+        this.displayedCount = 0;
+        this.batchSize = 50; // Load 50 files at a time
         this.categories = {
             documents: {
                 name: 'Documents',
@@ -297,22 +300,26 @@ class DeclutterDashboard {
 
         // Then apply additional filters
         filteredFiles = this.applyFilters(filteredFiles);
+        
+        // Sort by size
+        this.filteredFiles = filteredFiles.sort((a, b) => b.size_mb - a.size_mb);
 
         // Update category header
-        const categoryName = this.currentCategory === 'all' 
-            ? 'All Files' 
+        const categoryName = this.currentCategory === 'all'
+            ? 'All Files'
             : this.categories[this.currentCategory].name;
         
         document.getElementById('categoryTitle').textContent = categoryName;
-        document.getElementById('categoryCount').textContent = `${filteredFiles.length} files`;
+        document.getElementById('categoryCount').textContent = `${this.filteredFiles.length} files`;
         
-        const totalSize = filteredFiles.reduce((sum, f) => sum + f.size_mb, 0);
+        const totalSize = this.filteredFiles.reduce((sum, f) => sum + f.size_mb, 0);
         document.getElementById('categorySize').textContent = this.formatSize(totalSize);
 
-        // Render table
+        // Reset and render initial batch
+        this.displayedCount = 0;
         const tbody = document.getElementById('filesTableBody');
         
-        if (filteredFiles.length === 0) {
+        if (this.filteredFiles.length === 0) {
             tbody.innerHTML = `
                 <tr>
                     <td colspan="7" class="empty-state">
@@ -323,15 +330,92 @@ class DeclutterDashboard {
             return;
         }
 
-        tbody.innerHTML = filteredFiles
-            .sort((a, b) => b.size_mb - a.size_mb)
-            .map(file => this.renderFileRow(file))
-            .join('');
+        tbody.innerHTML = '';
+        this.loadMoreFiles();
+        
+        // Setup infinite scroll
+        this.setupInfiniteScroll();
+    }
 
-        // Reattach checkbox event listeners
+    loadMoreFiles() {
+        const tbody = document.getElementById('filesTableBody');
+        const start = this.displayedCount;
+        const end = Math.min(start + this.batchSize, this.filteredFiles.length);
+        
+        const fragment = document.createDocumentFragment();
+        const tempDiv = document.createElement('div');
+        
+        for (let i = start; i < end; i++) {
+            tempDiv.innerHTML = this.renderFileRow(this.filteredFiles[i]);
+            fragment.appendChild(tempDiv.firstChild);
+        }
+        
+        tbody.appendChild(fragment);
+        this.displayedCount = end;
+        
+        // Reattach event listeners for new rows
         this.attachCheckboxListeners();
         this.attachFileClickListeners();
         this.updateBulkActionsBar();
+        
+        // Show loading indicator if more files to load
+        if (this.displayedCount < this.filteredFiles.length) {
+            this.showLoadingIndicator();
+        } else {
+            this.hideLoadingIndicator();
+        }
+    }
+
+    setupInfiniteScroll() {
+        const tableContainer = document.querySelector('.files-table-container');
+        if (!tableContainer) return;
+        
+        // Remove old listener if exists
+        if (this.scrollHandler) {
+            tableContainer.removeEventListener('scroll', this.scrollHandler);
+        }
+        
+        this.scrollHandler = () => {
+            const { scrollTop, scrollHeight, clientHeight } = tableContainer;
+            
+            // Load more when scrolled to 80% of the way down
+            if (scrollTop + clientHeight >= scrollHeight * 0.8) {
+                if (this.displayedCount < this.filteredFiles.length && !this.isLoading) {
+                    this.isLoading = true;
+                    setTimeout(() => {
+                        this.loadMoreFiles();
+                        this.isLoading = false;
+                    }, 100);
+                }
+            }
+        };
+        
+        tableContainer.addEventListener('scroll', this.scrollHandler);
+    }
+
+    showLoadingIndicator() {
+        const tbody = document.getElementById('filesTableBody');
+        let indicator = document.getElementById('loadingIndicator');
+        
+        if (!indicator) {
+            indicator = document.createElement('tr');
+            indicator.id = 'loadingIndicator';
+            indicator.innerHTML = `
+                <td colspan="7" style="text-align: center; padding: 20px; color: #8d8d8d;">
+                    Loading more files... (${this.displayedCount} of ${this.filteredFiles.length})
+                </td>
+            `;
+            tbody.appendChild(indicator);
+        } else {
+            indicator.querySelector('td').textContent = `Loading more files... (${this.displayedCount} of ${this.filteredFiles.length})`;
+        }
+    }
+
+    hideLoadingIndicator() {
+        const indicator = document.getElementById('loadingIndicator');
+        if (indicator) {
+            indicator.remove();
+        }
     }
 
     renderFileRow(file) {
