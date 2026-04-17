@@ -37,7 +37,8 @@ class DeclutterDashboard {
             sizeMin: 0,
             sizeMax: Infinity,
             recommendation: 'all',
-            fileType: 'all'
+            fileType: 'all',
+            lastAccess: 'all'
         };
         this.init();
     }
@@ -120,6 +121,11 @@ class DeclutterDashboard {
             this.renderFiles();
         });
 
+        document.getElementById('lastAccessFilter').addEventListener('change', (e) => {
+            this.filters.lastAccess = e.target.value;
+            this.renderFiles();
+        });
+
         document.getElementById('recommendationFilter').addEventListener('change', (e) => {
             this.filters.recommendation = e.target.value;
             this.renderFiles();
@@ -136,12 +142,14 @@ class DeclutterDashboard {
             sizeMin: 0,
             sizeMax: Infinity,
             recommendation: 'all',
-            fileType: 'all'
+            fileType: 'all',
+            lastAccess: 'all'
         };
         document.getElementById('searchFilter').value = '';
         document.getElementById('sizeMinFilter').value = '';
         document.getElementById('sizeMaxFilter').value = '';
         document.getElementById('fileTypeFilter').value = 'all';
+        document.getElementById('lastAccessFilter').value = 'all';
         document.getElementById('recommendationFilter').value = 'all';
         this.renderFiles();
     }
@@ -273,6 +281,21 @@ class DeclutterDashboard {
             // File type filter
             if (this.filters.fileType !== 'all') {
                 if (file.file_type !== this.filters.fileType) {
+                    return false;
+                }
+            }
+
+            // Last access filter
+            if (this.filters.lastAccess !== 'all') {
+                const daysSinceAccess = this.getDaysSinceAccess(file.last_access);
+                const thresholds = {
+                    '6months': 180,
+                    '1year': 365,
+                    '2years': 730,
+                    '3years': 1095
+                };
+                const threshold = thresholds[this.filters.lastAccess];
+                if (daysSinceAccess < threshold) {
                     return false;
                 }
             }
