@@ -519,7 +519,18 @@ class DeclutterDashboard {
                 // Optional: Show a brief success message
                 console.log('File revealed in Finder:', filePath);
             } else {
-                alert(`Failed to reveal file: ${result.error}`);
+                // More helpful error message
+                const fileName = filePath.split('/').pop();
+                if (result.error === 'File not found') {
+                    alert(
+                        `⚠️ File Not Found\n\n` +
+                        `"${fileName}" no longer exists.\n\n` +
+                        `This file may have been moved or deleted since the last scan.\n\n` +
+                        `💡 Tip: Click the Refresh button to update the report with current files.`
+                    );
+                } else {
+                    alert(`Failed to reveal file: ${result.error}`);
+                }
             }
         } catch (error) {
             console.error('Error revealing file:', error);
