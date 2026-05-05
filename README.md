@@ -2,24 +2,15 @@
 
 An intelligent file analysis and cleanup tool with an interactive web dashboard for managing old, unused files on your Mac.
 
-> **🎉 NEW: Native macOS App Available!**
-> This project now includes an Electron-based native macOS application. See [APP_README.md](APP_README.md) for details.
+## 🚀 Quick Start
 
-## 🚀 Two Ways to Use
-
-### 1. Native macOS App (Recommended)
-Run as a standalone application with integrated scanner:
+### Launch the Dashboard
 ```bash
-./launch-app.sh
-```
-See [APP_README.md](APP_README.md) for full app documentation.
-
-### 2. Web Dashboard (Original)
-Run the web-based dashboard with manual scanner:
-```bash
+cd ~/Bob/"Digital Decluttering agent"
 ./start_dashboard.sh
 ```
-Continue reading below for web dashboard instructions.
+
+The dashboard will open at `http://localhost:8080`
 
 ---
 
