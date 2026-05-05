@@ -24,19 +24,41 @@ An intelligent file analysis and cleanup tool with an interactive web dashboard 
 
 ## 🚀 Quick Start
 
-### 1. Run a File Scan
+### Option 1: Native macOS App (Easiest) 🎯
+
+Create a double-clickable macOS application:
+
+```bash
+./create-mac-app.sh
+```
+
+This creates **"Digital Decluttering Agent.app"** that you can:
+- ✅ Double-click to launch
+- ✅ Drag to Applications folder
+- ✅ Add to Dock for quick access
+- ✅ Share with others
+
+The app will:
+1. Check if a scan report exists (prompts to run scan if needed)
+2. Start the dashboard server
+3. Open the dashboard in your browser
+4. Show a notification when ready
+
+### Option 2: Command Line
+
+#### 1. Run a File Scan
 ```bash
 ./"Digital Decluttering agent"
 ```
 This scans your user directories and generates a report of old, unused files.
 
-### 2. Launch the Dashboard
+#### 2. Launch the Dashboard
 ```bash
 ./start_dashboard.sh
 ```
 The dashboard will open automatically at `http://localhost:8080`
 
-### 3. Review and Clean Up
+#### 3. Review and Clean Up
 - Browse files by category (Documents, Media, Archives, etc.)
 - Use filters to find specific files
 - Select files and safely delete them (Move to Trash or Permanent Delete)

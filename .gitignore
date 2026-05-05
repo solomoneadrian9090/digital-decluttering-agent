@@ -33,6 +33,9 @@ env/
 reports/*.xlsx
 !reports/.gitkeep
 
+# macOS App Bundle
+*.app/
+
 # Temporary files
 *.tmp
 *.temp
