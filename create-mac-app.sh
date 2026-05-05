@@ -66,12 +66,6 @@ PROJECT_DIR="$(dirname "$APP_DIR")"
 
 cd "$PROJECT_DIR"
 
-# Check if Python dependencies are installed
-if ! python3 -c "import pandas" 2>/dev/null; then
-    osascript -e 'display dialog "Python dependencies not installed. Please run:\n\npip3 install -r requirements.txt" buttons {"OK"} default button "OK" with icon stop with title "Digital Decluttering Agent"'
-    exit 1
-fi
-
 # Check if a scan report exists
 if [ ! -f "dashboard/data/latest_report.json" ]; then
     RESPONSE=$(osascript -e 'display dialog "No scan report found. Would you like to run a scan now?" buttons {"Cancel", "Run Scan"} default button "Run Scan" with icon note with title "Digital Decluttering Agent"')
