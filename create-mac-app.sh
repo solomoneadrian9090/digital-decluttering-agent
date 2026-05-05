@@ -105,14 +105,34 @@ EOF
 
 chmod +x "${MACOS_DIR}/launcher"
 
-# Create app icon (using emoji as fallback)
+# Create app icon from PNG
 echo "🎨 Creating app icon..."
-if command -v sips &> /dev/null; then
-    # Create a simple icon using ImageMagick or sips if available
-    # For now, we'll skip icon creation - macOS will use default
-    echo "   (Using default icon - you can customize later)"
+if [ -f "icon.png" ]; then
+    # Create iconset directory
+    ICONSET_DIR="${RESOURCES_DIR}/AppIcon.iconset"
+    mkdir -p "${ICONSET_DIR}"
+    
+    # Generate all required icon sizes using sips
+    sips -z 16 16     icon.png --out "${ICONSET_DIR}/icon_16x16.png" > /dev/null 2>&1
+    sips -z 32 32     icon.png --out "${ICONSET_DIR}/icon_16x16@2x.png" > /dev/null 2>&1
+    sips -z 32 32     icon.png --out "${ICONSET_DIR}/icon_32x32.png" > /dev/null 2>&1
+    sips -z 64 64     icon.png --out "${ICONSET_DIR}/icon_32x32@2x.png" > /dev/null 2>&1
+    sips -z 128 128   icon.png --out "${ICONSET_DIR}/icon_128x128.png" > /dev/null 2>&1
+    sips -z 256 256   icon.png --out "${ICONSET_DIR}/icon_128x128@2x.png" > /dev/null 2>&1
+    sips -z 256 256   icon.png --out "${ICONSET_DIR}/icon_256x256.png" > /dev/null 2>&1
+    sips -z 512 512   icon.png --out "${ICONSET_DIR}/icon_256x256@2x.png" > /dev/null 2>&1
+    sips -z 512 512   icon.png --out "${ICONSET_DIR}/icon_512x512.png" > /dev/null 2>&1
+    sips -z 1024 1024 icon.png --out "${ICONSET_DIR}/icon_512x512@2x.png" > /dev/null 2>&1
+    
+    # Convert iconset to icns
+    iconutil -c icns "${ICONSET_DIR}" -o "${RESOURCES_DIR}/AppIcon.icns"
+    
+    # Clean up iconset directory
+    rm -rf "${ICONSET_DIR}"
+    
+    echo "   ✓ Icon created from icon.png"
 else
-    echo "   (Using default icon)"
+    echo "   ⚠ icon.png not found - using default icon"
 fi
 
 # Make the app executable
