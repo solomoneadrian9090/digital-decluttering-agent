@@ -1,70 +1,40 @@
-# Python
-__pycache__/
-*.py[cod]
-*$py.class
-*.so
-.Python
-env/
-venv/
-ENV/
-build/
-develop-eggs/
+# Dependencies
+node_modules/
+package-lock.json
+
+# Build outputs
 dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
-
-# Reports and Data
-reports/*.xlsx
-dashboard/data/*.json
-
-# macOS
-.DS_Store
-.AppleDouble
-.LSOverride
-Icon
-._*
-.DocumentRevisions-V100
-.fseventsd
-.Spotlight-V100
-.TemporaryItems
-.Trashes
-.VolumeIcon.icns
-.com.apple.timemachine.donotpresent
-.AppleDB
-.AppleDesktop
-Network Trash Folder
-Temporary Items
-.apdisk
-
-# IDEs
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
+build/*.dmg
+build/*.zip
 
 # Logs
+logs/
 *.log
+npm-debug.log*
 
-# Environment
-.env
-.env.local
+# OS files
+.DS_Store
+Thumbs.db
 
-# User-specific files
-com.digitalclutter.scanner.plist
-icon.png
-temp.iconset/
-temp.icns
+# IDE
+.vscode/
+.idea/
 
-# Generated app bundle
-*.app/
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+venv/
+env/
+
+# Reports (keep directory structure)
+reports/*.xlsx
+!reports/.gitkeep
+
+# Temporary files
+*.tmp
+*.temp
+
+# Made with Bob

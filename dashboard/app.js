@@ -73,6 +73,17 @@ class DeclutterDashboard {
             });
         });
 
+        // Run Scanner button (Electron only)
+        const runScannerBtn = document.getElementById('runScannerBtn');
+        if (runScannerBtn && window.electronAPI) {
+            runScannerBtn.addEventListener('click', () => {
+                this.runScanner();
+            });
+        } else if (runScannerBtn) {
+            // Hide button if not in Electron
+            runScannerBtn.style.display = 'none';
+        }
+
         // Refresh button
         document.getElementById('refreshBtn').addEventListener('click', () => {
             this.loadLatestReport();
@@ -153,6 +164,55 @@ class DeclutterDashboard {
         document.getElementById('recommendationFilter').value = 'all';
         this.renderFiles();
     }
+    async runScanner() {
+        if (!window.electronAPI) {
+            alert('Scanner can only be run from the Electron app');
+            return;
+        }
+
+        const runScannerBtn = document.getElementById('runScannerBtn');
+        const originalText = runScannerBtn.innerHTML;
+        
+        try {
+            // Disable button and show loading state
+            runScannerBtn.disabled = true;
+            runScannerBtn.innerHTML = `
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" style="animation: spin 1s linear infinite;">
+                    <path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z"/>
+                </svg>
+                Running Scanner...
+            `;
+
+            // Run the scanner
+            const result = await window.electronAPI.runScanner();
+            
+            if (result.success) {
+                // Show success message
+                await window.electronAPI.showMessageBox({
+                    type: 'info',
+                    title: 'Scanner Complete',
+                    message: 'File scan completed successfully!',
+                    detail: 'The dashboard will now reload with the latest data.'
+                });
+                
+                // Reload the report
+                await this.loadLatestReport();
+            }
+        } catch (error) {
+            console.error('Scanner error:', error);
+            await window.electronAPI.showMessageBox({
+                type: 'error',
+                title: 'Scanner Error',
+                message: 'Failed to run the scanner',
+                detail: error.error || error.message || 'Unknown error occurred'
+            });
+        } finally {
+            // Restore button
+            runScannerBtn.disabled = false;
+            runScannerBtn.innerHTML = originalText;
+        }
+    }
+
 
     async loadLatestReport() {
         try {
