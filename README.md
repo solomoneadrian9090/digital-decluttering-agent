@@ -2,15 +2,44 @@
 
 An intelligent file analysis and cleanup tool with an interactive web dashboard for managing old, unused files on your Mac.
 
+## 📥 Installation
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/solomoneadrian9090/digital-decluttering-agent.git
+   cd digital-decluttering-agent
+   ```
+
+2. **Install Python dependencies:**
+   ```bash
+   pip3 install -r requirements.txt
+   ```
+
+3. **If macOS blocks the scripts** (see [Troubleshooting](#-troubleshooting) for details):
+   ```bash
+   xattr -cr .
+   chmod +x start_dashboard.sh
+   chmod +x "Digital Decluttering agent"
+   ```
+
 ## 🚀 Quick Start
 
-### Launch the Dashboard
+### 1. Run a File Scan
 ```bash
-cd ~/Bob/"Digital Decluttering agent"
+./"Digital Decluttering agent"
+```
+This scans your user directories and generates a report of old, unused files.
+
+### 2. Launch the Dashboard
+```bash
 ./start_dashboard.sh
 ```
+The dashboard will open automatically at `http://localhost:8080`
 
-The dashboard will open at `http://localhost:8080`
+### 3. Review and Clean Up
+- Browse files by category (Documents, Media, Archives, etc.)
+- Use filters to find specific files
+- Select files and safely delete them (Move to Trash or Permanent Delete)
 
 ---
 
@@ -263,6 +292,35 @@ launchctl unload ~/Library/LaunchAgents/com.digitalclutter.scanner.plist
 5. **Backup Important Files**: Always have backups before bulk deletion
 
 ## 🆘 Troubleshooting
+
+### macOS Security Warning ("Malware" or "Unidentified Developer")
+
+When you first run the scripts, macOS may block them with a security warning. This is normal for unsigned scripts downloaded from the internet.
+
+**Solution 1: Allow the script (Recommended)**
+1. Try to run the script: `./start_dashboard.sh`
+2. When blocked, go to **System Settings** → **Privacy & Security**
+3. Scroll down to find the blocked script
+4. Click **"Allow Anyway"** or **"Open Anyway"**
+5. Run the script again
+
+**Solution 2: Remove quarantine attribute**
+```bash
+cd ~/Bob/"Digital Decluttering agent"
+xattr -d com.apple.quarantine start_dashboard.sh
+xattr -d com.apple.quarantine "Digital Decluttering agent"
+chmod +x start_dashboard.sh
+chmod +x "Digital Decluttering agent"
+```
+
+**Solution 3: Bypass Gatekeeper (Advanced)**
+```bash
+# Remove quarantine from all files in the project
+cd ~/Bob/"Digital Decluttering agent"
+xattr -cr .
+```
+
+After using any of these methods, the scripts will run normally.
 
 ### Dashboard Won't Start
 ```bash
