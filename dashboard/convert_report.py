@@ -50,8 +50,8 @@ def convert_report_to_json(excel_path, output_path):
         # Calculate total size
         total_size_mb = df['size_mb'].sum()
         
-        # Get scan date from filename or use file modification time
-        scan_date = datetime.fromtimestamp(os.path.getmtime(excel_path)).isoformat()
+        # Use current datetime as scan date (when the conversion happens)
+        scan_date = datetime.now().isoformat()
         
         # Create JSON structure
         report_data = {
